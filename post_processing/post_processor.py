@@ -24,10 +24,11 @@ def runPolitBertOnImage(image_url):
         "ml/googleVision/sample images", extract_name(image_url))
 
     with open(save_path, 'wb') as f:
+        # change this so that it writes directly to google cloud instead of local directory
         f.write(res.content)
 
     result = subprocess.run(
-        ["python", "ml/googleVision/visionExecutable.py", save_path], capture_output=True, text=True)
+        ["python", "ml/googleVision/visionExecutable.py", save_path], capture_output=True, text=True)  # take away write and put use this to put image directly into cloud bucket
 
     # Print the output for demonstration purposes
     # print("Output from visionExecutable.py:", result.stdout.strip())
@@ -61,7 +62,6 @@ def check_json_attributes(json_str):
         print("Post contains no contents")
 
     return json_object
-
 
     # print(json_object)
 if __name__ == "__main__":
