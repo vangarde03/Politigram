@@ -295,17 +295,17 @@ export async function createNewPost(values) {
 
     // get the rating from ML using content and/or image
     const postsJson = JSON.stringify({ content: content, image: image })
-    const { stdout, stderr } = await execAsync(`echo '${postsJson}' | python3 post_processing/post_processor.py`);//added
+    // const { stdout, stderr } = await execAsync(`echo '${postsJson}' | python3 post_processing/post_processor.py`);//added
 
-    if (stderr) {
-      console.error("Error executing Python script: ${ stderr }");
-      return JSON.stringify([]);
-    }
+    // if (stderr) {
+    //   console.error("Error executing Python script: ${ stderr }");
+    //   return JSON.stringify([]);
+    // }
 
-    // Parse the JSON output from the Python script
-    const processedJson = JSON.parse(stdout);
-    // extract the rating
-    const rating = Number(processedJson.rating);
+    // // Parse the JSON output from the Python script
+    // const processedJson = JSON.parse(stdout);
+    // // extract the rating
+    // const rating = Number(processedJson.rating);
     // create new post instance
     try {
       await connectToDB();
@@ -314,7 +314,8 @@ export async function createNewPost(values) {
         content,
         user: session.user.userId,
         image,
-        rating: processedJson.rating,
+        rating: 0, //replace this later
+        // rating: processedJson.rating,
       });
 
 
