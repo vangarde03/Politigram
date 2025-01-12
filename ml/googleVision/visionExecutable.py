@@ -7,11 +7,11 @@
 from vision import run_quickstart
 from image_checker import name_queue
 import os
-import time
+# import time
 
 
-duration = 100
-end_time = time.time() + duration
+# duration = 100
+# end_time = time.time() + duration
 
 # while time.time() < end_time:  # while loop executes for 5 seconds
 counter = 0

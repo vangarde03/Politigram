@@ -16,9 +16,9 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,  
+  FormMessage,
 } from "@/components/ui/form";
-import { CardWrapper } from "@/components/auth/card-wrapper"
+import { CardWrapper } from "@/components/auth/card-wrapper";
 import { Button } from "@/components/ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
@@ -42,13 +42,12 @@ export const RegisterForm = () => {
 
   const onSubmit = (values) => {
     setError("");
-    
-    
+
     startTransition(() => {
       async function create() {
         try {
           const userString = await createUser(values);
-          const user = JSON.parse(userString)
+          const user = JSON.parse(userString);
           const res = await signIn("credentials", {
             redirect: true,
             username: user.username,
@@ -72,87 +71,80 @@ export const RegisterForm = () => {
       showSocial
     >
       <Form {...form}>
-        <form 
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6"
-        >
-           <div className="space-y-4">
-              <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name*</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          disabled={isPending}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Username*</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          disabled={isPending}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password*</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          disabled={isPending}
-                          placeholder="******"
-                          type="password"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="profilePicUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Profile Image</FormLabel>
-                      <FormControl>
-                        <FileUpload
-                          endpoint={'newUserImage'}
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                
-
-           </div>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name*</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="Enter your name"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username*</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="Create a username"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password*</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="Create a password"
+                      type="password"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="profilePicUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Profile Image</FormLabel>
+                  <FormControl>
+                    <FileUpload
+                      endpoint={"newUserImage"}
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
           <FormError message={error} />
           {/* <FormSuccess message={success} /> */}
-          <Button
-            disabled={isPending}
-            type="submit"
-            className="w-full"
-          >
+          <Button disabled={isPending} type="submit" className="w-full">
             Create an account
           </Button>
         </form>
