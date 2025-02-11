@@ -6,9 +6,12 @@ post_processing/__pycache__
 
 #model configuration
 ml/path_to_save_model (too big)
+ml/path_to_save_model/config.json
+ml/path_to_save_model/pytorch_model
 
 #datasets that are too large
 ml/very large datasets (too big)
+ml/datasets/training\ data
 
 #vangarde03 .env file
 *.env

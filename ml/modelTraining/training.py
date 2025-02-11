@@ -3,20 +3,22 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
 import csv
+import os
+import glob
 
 # Set device (CPU or GPU)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Define paths
 pretrained_LM_path = "kornosk/polibertweet-mlm"
-save_path = "ml/path_to_save_model (too big)"  # cHANGE THIS WHEN NEEDED
+save_path = "ml/path_to_save_model (too big)"  # CHANGE THIS WHEN NEEDED
 # Remove (too big) when needed
 
 # Load tokenizer and model
 tokenizer = AutoTokenizer.from_pretrained(pretrained_LM_path)
 # Adjust num_labels based on your political alignment categories
 model = AutoModelForSequenceClassification.from_pretrained(
-    pretrained_LM_path, num_labels=5)  # Change num_labels to 5
+    pretrained_LM_path, num_labels=3)  # Change num_labels to 3
 model.to(device)
 
 
@@ -41,18 +43,40 @@ def flatten_list(lst):
     return flat_list
 
 
-with open('ml/datasets/datafile.csv', 'r') as file:
-    reader = csv.reader(file)
-    texts = list(reader)
+texts = []
+
+directories = ['ml/datasets/training\ data/Center\ Data',
+               'ml/datasets/training\ data/Left\ Data', 'ml/datasets/training\ data/Right Data']
+
+# Loop through each directory and process all .txt files inside
+for directory in directories:
+    for file_path in glob.glob(os.path.join(directory, "*.txt")):
+        with open(file_path, 'r', encoding='utf-8') as file:
+            print(file.read())  # debug
+            print("********")  # debug
+            texts.append(file.read())  # Append full content of each file
+
+# Old
+# with open('ml/datasets/datafile.csv', 'r') as file:
+#     reader = csv.reader(file)
+#     texts = list(reader)
 
 
 with open('ml/datasets/labels.csv', 'r') as file:
     reader = csv.reader(file)
     labels = list(reader)
 
+# open txt files and read them
+
+# new label scale: 0, 1, 2, -> 0 = left, 1 = center, 2 = right
+left_labels = [0 for text in texts]
+center_labels = [1 for text in texts]
+right_labels = [2 for text in texts]
+labels = left_labels + center_labels + right_labels
+
 # Example
-labels = flatten_list(labels)
-texts = flatten_list(texts)
+# labels = flatten_list(labels)
+# texts = flatten_list(texts)
 
 
 #
@@ -62,15 +86,17 @@ texts = flatten_list(texts)
 #
 
 
-# Convert labels to numerical format
-label_dict = {"very liberal": 0, "liberal": 1,
-              "neutral": 2, "conservative": 3, "very conservative": 4}
+# # Convert labels to numerical format
+# label_dict = {"very liberal": 0, "liberal": 1,
+#               "neutral": 2, "conservative": 3, "very conservative": 4}
 
-print(len(label_dict))
-labels = [label_dict[label] for label in labels]
+# print(len(label_dict))
+# labels = [label_dict[label] for label in labels]
 
+print("********")
 print(len(labels))
 print(len(texts))
+print("********")
 
 # Split the dataset into training and validation sets
 texts_train, texts_val, labels_train, labels_val = train_test_split(
