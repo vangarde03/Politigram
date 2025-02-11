@@ -44,35 +44,30 @@ def flatten_list(lst):
 
 
 texts = []
+labels = []
 
-directories = ['ml/datasets/training\ data/Center\ Data',
-               'ml/datasets/training\ data/Left\ Data', 'ml/datasets/training\ data/Right Data']
-
+directories = [r"ml/datasets/training data/Center Data/Center Data",
+               r"ml/datasets/training data/Left Data/Left Data", r"ml/datasets/training data/Right Data/Right Data"]
+# new label scale: 0, 1, 2, -> 0 = left, 1 = center, 2 = right
+labels_dict = {"Center Data": 1, "Left Data": 0, "Right Data": 2}
 # Loop through each directory and process all .txt files inside
 for directory in directories:
     for file_path in glob.glob(os.path.join(directory, "*.txt")):
         with open(file_path, 'r', encoding='utf-8') as file:
-            print(file.read())  # debug
-            print("********")  # debug
             texts.append(file.read())  # Append full content of each file
-
+            # Append label
+            folder_name = os.path.basename(directory)
+            labels.append(labels_dict[folder_name])
 # Old
 # with open('ml/datasets/datafile.csv', 'r') as file:
 #     reader = csv.reader(file)
 #     texts = list(reader)
 
 
-with open('ml/datasets/labels.csv', 'r') as file:
-    reader = csv.reader(file)
-    labels = list(reader)
+# with open('ml/datasets/labels.csv', 'r') as file:
+#     reader = csv.reader(file)
+#     labels = list(reader)
 
-# open txt files and read them
-
-# new label scale: 0, 1, 2, -> 0 = left, 1 = center, 2 = right
-left_labels = [0 for text in texts]
-center_labels = [1 for text in texts]
-right_labels = [2 for text in texts]
-labels = left_labels + center_labels + right_labels
 
 # Example
 # labels = flatten_list(labels)
